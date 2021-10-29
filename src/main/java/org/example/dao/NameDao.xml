@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.dao.NameDao">
+
+    <sql id="chans">
+        select name from mechanism
+    </sql>
+    <sql id="">
+                CREATE FUNCTION Fun_GetPY
+        (
+        @Str NVARCHAR(4000)
+        )
+        RETURNS NVARCHAR(4000)
+        AS
+        BEGIN
+        DECLARE @Word NCHAR(1)
+        DECLARE @PY NVARCHAR(4000)
+        SET @PY = ''
+        WHILE LEN(@Str) > 0
+        BEGIN
+        SET @Word = LEFT(@Str, 1)
+        --如果非汉字字符，返回原字符
+        SET @PY = @PY + (CASE WHEN UNICODE(@Word) BETWEEN 19968 AND 19968 + 20901
+        THEN (SELECT TOP 1 PY FROM(
+        SELECT 'A' AS PY, N'骜' AS WORD
+        UNION ALL SELECT 'B',N'簿'
+        UNION ALL SELECT 'C',N'错'
+        UNION ALL SELECT 'D',N'鵽'
+        UNION ALL SELECT 'E',N'樲'
+        UNION ALL SELECT 'F',N'鳆'
+        UNION ALL SELECT 'G',N'腂'
+        UNION ALL SELECT 'H',N'夻'
+        UNION ALL SELECT 'J',N'攈'
+        UNION ALL SELECT 'K',N'穒'
+        UNION ALL SELECT 'L',N'鱳'
+        UNION ALL SELECT 'M',N'旀'
+        UNION ALL SELECT 'N',N'桛'
+        UNION ALL SELECT 'O',N'沤'
+        UNION ALL SELECT 'P',N'曝'
+        UNION ALL SELECT 'Q',N'囕'
+        UNION ALL SELECT 'R',N'鶸'
+        UNION ALL SELECT 'S',N'蜶'
+        UNION ALL SELECT 'T',N'箨'
+        UNION ALL SELECT 'W',N'鹜'
+        UNION ALL SELECT 'X',N'鑂'
+        UNION ALL SELECT 'Y',N'韵'
+        UNION ALL SELECT 'Z',N'咗') T
+        WHERE WORD >= @Word COLLATE Chinese_PRC_CS_AS_KS_WS
+        ORDER BY PY ASC)
+        ELSE @Word
+        END)
+        SET @Str = RIGHT(@Str, LEN(@Str) - 1)
+        END
+        RETURN @PY
+        END
+    </sql>
+</mapper>
