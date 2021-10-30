@@ -14,5 +14,6 @@ public class Mytest {
     public static void main(String args[]){
         String aa = "啊啊";
         System.out.println(aa);
+        System.out.println(aa);
     }
 }
