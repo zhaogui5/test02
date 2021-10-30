@@ -15,5 +15,6 @@ public class Mytest {
         String aa = "啊啊";
         System.out.println(aa);
         System.out.println(aa);
+        System.out.println("第一次提交");
     }
 }
